@@ -16,10 +16,11 @@ Route::get('/', function () {
 });
 
 
-Route::get('/usuarios', function(){
-    // No mas $_GET  only use $id
-    return "Usuarios";
-});
+Route::get('/usuarios', 'UserController@index'); //Con '' y separado por @
+// function(){
+//     // No mas $_GET  only use $id
+//     return "Usuarios";
+// });
 
 Route::get('/usuarios/nuevo', function(){
     // No mas $_GET  only use $id
@@ -27,10 +28,11 @@ Route::get('/usuarios/nuevo', function(){
 });
 
 //PARAMETROS DINAMICO {} ADIOS ?id= :D
-Route::get('/usuarios/{id}', function($id){
-    //No mas $_GET  only use $id
-    return "Mostrando detalle del usuario: $id";
-});
+Route::get('/usuarios/{id}', 'UserController@show')->where('id', '\d+');
+// function($id){
+//     //No mas $_GET  only use $id
+//     return "Mostrando detalle del usuario: $id";
+// });
 // })->where('id', '[0-9]+') ;
 // })->where('id', '\d+') ;
 

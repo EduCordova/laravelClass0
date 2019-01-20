@@ -1,10 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
+//nombres y subdirectorios
 
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    //
+    public function index()
+    {
+        return "Usuarios";
+    }
+
+    public function show($id)
+    {
+        return "Mostrando detalle del usuario: $id";
+    }
 }

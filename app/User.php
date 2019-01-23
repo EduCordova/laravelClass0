@@ -27,4 +27,19 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected $casts = [
+        'is_admin' => 'boolean',
+    ];
+
+    public function profession() // id default | id_profession edit
+    {
+        //belong -> pertenecer
+        return $this->belongsTo(Profession::class);
+    }
+
+    public function isAdmin()
+    {
+        return $this->is_admin;
+    }
 }

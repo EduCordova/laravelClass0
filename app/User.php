@@ -8,6 +8,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    /*
+        LLAMAR A LA TABLA IF...
+        protected $table = 'users'; name of table
+    */
     use Notifiable;
 
     /**

@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->boolean('is_admin')->default(false);
+            // $table->string('website')->nullable();
             $table->unsignedInteger('profession_id')->nullable();
             $table->foreign('profession_id')->references('id')->on('professions');
             // $table->timestamp('email_verified_at')->nullable();

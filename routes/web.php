@@ -16,19 +16,26 @@ Route::get('/', function () {
 });
 
 
-Route::get('/usuarios', 'UserController@index'); //Con '' y separado por @
+Route::get('/usuarios', 'UserController@index')
+    ->name('users'); //Con '' y separado por @
 // function(){
 //     // No mas $_GET  only use $id
 //     return "Usuarios";
 // });
 
-Route::get('/usuarios/nuevo', 'UserController@create');
+Route::get('/usuarios/nuevo', 'UserController@create')
+    ->name('user.create');
+
+Route::post('/usuarios', 'UserController@store')
+    ->name('user.form');
+
 // function(){
 //     return "Vista para crear Usuarios";
 // });
 
 //PARAMETROS DINAMICO {} ADIOS ?id= :D
-Route::get('/usuarios/{id}', 'UserController@show')->where('id', '\d+');
+Route::get('/usuarios/{id}', 'UserController@show')->where('id', '\d+') // change id for user
+    ->name('user.show');
 // function($id){
 //     //No mas $_GET  only use $id
 //     return "Mostrando detalle del usuario: $id";
@@ -41,7 +48,7 @@ Route::get('/usuarios/{id}', 'UserController@show')->where('id', '\d+');
 //     //No mas $_GET  only use $id
 //     if($name) {
 //         return "tu id = ".ucfirst($id)." y tu nombre es = ".ucfirst($name);
-//     }else {        
+//     }else {
 //             return "tu nick es ".ucfirst($id);
 //     }
 // });

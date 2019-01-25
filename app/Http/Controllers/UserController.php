@@ -60,14 +60,36 @@ class UserController extends Controller
     public function store()
     {
         //recibir datos de un post
-        $data = request()->all();
+        $data = request()->validate([
+            'name' => 'required',
+            'email' => ['required','email', 'unique:users,email'],
+            'password' => 'required'
+        ],[
+            'name.required' => 'El campo nombre es Obligatorio',
+            'email.required' => 'El campo email es Obligatorio',
+            'email.email' => 'Ingresa un email Valido',
+            'email.unique' => 'El email ya existe',
+            'password.required' => 'El campo password es Obligatorio',
+        ]);
+
+        // if(empty($data['name'])){
+        //     //redireccionamos
+        //     return redirect('usuarios/nuevo')->withErrors([
+        //         'name' => 'Es obligatorio'
+        //     ]);
+        // }
 
         User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
-        // return redirect('usuarios');
-        return redirect()->route('users');
+            return redirect()->route('users');
+    }
+
+    public function edit(User $user)
+    {
+        // $user = User::find($id);
+        return view('users.edit', compact('user')); //Nombre de la Ubicacion de la vista (Carpetas)
     }
 }

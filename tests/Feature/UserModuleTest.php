@@ -86,9 +86,9 @@ class UserModuleTest extends TestCase
 
     function test_create_users()
     {
-        $this->withoutExceptionHandling();
+      //  $this->withoutExceptionHandling();
         //enviando petision type POST
-        $this->post('/usuarios', [
+        $this->post('/usuarios/', [
             'name' => 'edu',
             'email' => 'doocv@gmail.com',
             'password' => 'espada001',
@@ -99,5 +99,52 @@ class UserModuleTest extends TestCase
             'email' => 'doocv@gmail.com',
             'password' => 'espada001',
         ]);
+    }
+
+    function test_name_is_required(){
+       // $this->withoutExceptionHandling();
+
+        $this->from('usuarios/nuevo')
+        ->post('/usuarios/',[
+            'name' => '',
+            'email' => 'doocv@gmail.com',
+            'password' => 'espada001'
+        ])->assertRedirect('usuarios/nuevo')
+            ->assertSessionHasErrors(['name' => 'El campo nombre es Obligatorio']);
+
+            $this->assertEquals(0, User::count());
+        // $this->assertDatabaseMissing('users', [
+        //     'email' => 'doocv@gmail.com',
+        // ]);
+    }
+
+    function test_email_unique() {
+        //fabrica
+        factory(User::class)->create([
+            'email' => 'educord@gmail.com'
+        ]);
+
+
+        $this->from('usuarios/nuevo')
+        ->post('/usuarios/',[
+            'name' => 'eduj',
+            'email' => 'educord@gmail.com',
+            'password' => 'espada001'
+        ])->assertRedirect('usuarios/nuevo')
+            ->assertSessionHasErrors(['email' => 'El email ya existe']);
+
+            $this->assertEquals(1, User::count());
+    }
+
+    function test_edit_one_user() {
+        //Creamos un usuario
+        $user = factory(User::class)->create();
+
+        $this->get("usuarios/{$user->id}/editar") // usuarios/3/editar
+            ->assertStatus(200)
+            ->assertSee($user->name)
+            ->assertSee($user->email)
+            ->assertViewIs('users.edit')
+            ->assertViewHas('user', $user);
     }
 }

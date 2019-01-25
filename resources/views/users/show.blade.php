@@ -7,6 +7,8 @@
 
     El id pertenece al usuario: <b>{{$user->name}}</b>
     <p>
-        <a href="{{route("users")}}" class="href">Regresar</a>
+        <a class="btn btn-primary" href="{{route("users")}}">Regresar</a>
     </p>
+
+
 @endsection

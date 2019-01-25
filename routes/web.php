@@ -52,5 +52,7 @@ Route::get('/usuarios/{id}', 'UserController@show')->where('id', '\d+') // chang
 //             return "tu nick es ".ucfirst($id);
 //     }
 // });
+Route::get('/usuarios/{user}/editar', 'UserController@edit');
+    // ->name('user.edit');
 
 Route::get('/saludo/{id}/{name?}', 'WelcomeUser');

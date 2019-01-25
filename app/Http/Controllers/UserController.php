@@ -92,4 +92,31 @@ class UserController extends Controller
         // $user = User::find($id);
         return view('users.edit', compact('user')); //Nombre de la Ubicacion de la vista (Carpetas)
     }
+
+    public function update(User $user) //Recibimos el usuario
+    {
+        // $data = request()->all(); //no es reconmendable usar request all
+        $data = request()->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$user->id,
+            'password' => '',
+        ]);
+
+        if ($data['password'] != null) {
+            $data['password'] = bcrypt($data['password']);
+        }else {
+            unset($data['password']); //destruimos la variable
+        }
+        // $data['password'] = bcrypt($data['password']);
+        $user->update($data);
+        // return redirect()->route('user.show', ['user' => $user]);
+        return redirect("/usuarios/{$user->id}");
+    }
+
+    public function delete(User $user)
+    {
+        //comentario ramdom $faker->randomElement(['hombre', 'mujer'])
+        $user->delete();
+        return redirect()->route('users');
+    }
 }

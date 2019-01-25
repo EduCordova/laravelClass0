@@ -17,7 +17,8 @@
 
 
 
-    <form  action="" method="POST" >
+    <form  action="{{url("usuarios/{$user->id}")}}" method="POST" >
+        {{method_field('PUT')}}
         {{csrf_field()}}
 
         <div class="form-group">
@@ -36,6 +37,19 @@
 
         <div class="alert alert-danger mt-1 mb-1" role="alert">
                     {{$errors->first('email')}}
+        </div>
+
+
+                @endif
+    </div>
+
+    <div class="form-group">
+        <input class="form-control"  value="{{old('password')}}" type="password" name="password" placeholder="Password" autocomplete="off" >
+        @if ($errors->has('password'))
+
+
+        <div class="alert alert-danger mt-1 mb-1" role="alert">
+                    {{$errors->first('password')}}
         </div>
 
 

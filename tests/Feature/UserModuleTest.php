@@ -136,7 +136,7 @@ class UserModuleTest extends TestCase
             $this->assertEquals(1, User::count());
     }
 
-    function test_edit_one_user() {
+    function test_edit_one_user() { //ONly open view and show data user
         //Creamos un usuario
         $user = factory(User::class)->create();
 
@@ -146,5 +146,49 @@ class UserModuleTest extends TestCase
             ->assertSee($user->email)
             ->assertViewIs('users.edit')
             ->assertViewHas('user', $user);
+    }
+
+    function test_update_user() {
+        $user = factory(User::class)->create();
+
+        $this->withoutExceptionHandling();
+        $this->put("/usuarios/{$user->id}", [
+            'name' => 'userEdit',
+            'email' => 'editEmail@gmail.com',
+            'password' => 'asasd',
+        ])->assertRedirect("/usuarios/{$user->id}");
+        //Comprobamos que las creddenciales fueron actualizadas
+        $this->assertCredentials([
+            'name' => 'userEdit',
+            'email' => 'editEmail@gmail.com',
+            'password' => 'asasd',
+        ]);
+    }
+
+    function test_name_required_in_update() {
+        $user = factory(User::class)->create();
+
+        $this->from("/usuarios/{$user->id}/editar")
+            ->put("/usuarios/{$user->id}", [
+            'name' => '',
+            'email' => 'otroemail22@gmail.com',
+            'password' => 'asdasd',
+        ])->assertRedirect("usuarios/{$user->id}/editar")
+        ->assertSessionHasErrors(['name']);
+
+        $this->assertDatabaseMissing('users', ['email' => 'otroemail22@gmail.com']);
+
+    }
+    //test delete
+    function test_delete_user(){
+        //ver errores mas descriptivos
+        $this->withoutExceptionHandling();
+        $user = factory(User::class)->create();
+
+        $this->delete("/usuarios/{$user->id}")
+            ->assertRedirect("usuarios");
+
+        //los datos noc pierden
+        $this->assertDatabaseMissing('users', ['id' => $user->id]);
     }
 }

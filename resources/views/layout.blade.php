@@ -11,6 +11,7 @@
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css">
     <!-- Custom styles for this template -->
     {{-- <link href="{{ asset('css/style.css') }}" rel="stylesheet"> --}}
 </head>
@@ -26,11 +27,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <li class="{{ Request::is('usuarios') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ url('/usuarios') }}">Usuarios</a>
                 </li>
 
-                <li class="nav-item active">
+                <li class="{{ Request::is('usuarios/nuevo') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('user.create') }}">Crear</a>
                 </li>
 

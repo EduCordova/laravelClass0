@@ -34,7 +34,8 @@ Route::post('/usuarios', 'UserController@store')
 // });
 
 //PARAMETROS DINAMICO {} ADIOS ?id= :D
-Route::get('/usuarios/{id}', 'UserController@show')->where('id', '\d+') // change id for user
+Route::get('/usuarios/{user}', 'UserController@show')
+    ->where('user', '[0-9]+') // change id for user
     ->name('user.show');
 // function($id){
 //     //No mas $_GET  only use $id
@@ -53,6 +54,10 @@ Route::get('/usuarios/{id}', 'UserController@show')->where('id', '\d+') // chang
 //     }
 // });
 Route::get('/usuarios/{user}/editar', 'UserController@edit');
+Route::put('/usuarios/{user}', 'UserController@update');
     // ->name('user.edit');
 
 Route::get('/saludo/{id}/{name?}', 'WelcomeUser');
+
+Route::delete('/usuarios/{user}', 'UserController@delete')
+    ->name('user.del');
